@@ -43,17 +43,38 @@
 //    random_device rd;
 //    mt19937 gen(rd());  추가
 
+// #include <iostream>
+// #include <algorithm>
+// #include <random>
+// #include <string>
+// using namespace std;
+//
+// int main() {
+//     random_device rd;              // 하드웨어 기반 시드
+//     mt19937 gen(rd());             // Mersenne Twister 엔진
+//     int a[4] = {1, 2, 3};
+//     shuffle(a, a + 2, gen);        // 현대적 랜덤 셔플
+//     for (int i = 0; i < 4; i++) cout << a[i] << endl;
+// }
+
+
 #include <iostream>
 #include <algorithm>
 #include <random>
-#include <string>
 using namespace std;
 
 int main() {
-    random_device rd;              // 하드웨어 기반 시드
-    mt19937 gen(rd());             // Mersenne Twister 엔진
-    int a[4] = {1, 2, 3, 4};
-    shuffle(a, a + 4, gen);        // 현대적 랜덤 셔플
+    random_device rd;
+    mt19937 gen(rd());
 
-    for (int i = 0; i < 4; i++) cout << a[i] << endl;
+    int a[3] = {1, 2, 3};
+
+    for (int j = 0; j < 3; j++) {
+        shuffle(a, a + 3, gen); // 배열 전체 셔플
+        for (int i = 0; i < 2; i++)
+            cout << a[i] << " ";
+        cout << "\n";
+    }
+
+    return 0;
 }
