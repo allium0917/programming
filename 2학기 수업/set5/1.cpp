@@ -1,62 +1,54 @@
-//1. 노드의 개수를 입력받고 연결리스트 생성, 데이터 입력받아서 저장, 정수 입력받고 입력 받은 수가 저장되어 있는 노드 위치 출력
-
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef struct Node {
-    int data;
+    char data[100];         // 정수도 문자열로 저장 가능하도록 통일
     struct Node* next;
 } Node;
 
-int main() {
-    int n, value, target;
-    Node *head = NULL, *current = NULL, *temp = NULL;
+Node* createNode(const char* value) {
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    strcpy(newNode->data, value);
+    newNode->next = NULL;
+    return newNode;
+}
 
-    printf("노드 개수 입력: ");
+
+int main() {
+    int n;
+    printf("노드 ");
     scanf("%d", &n);
 
+    Node* head = NULL;
+    Node* tail = NULL;
     for (int i = 0; i < n; i++) {
-        temp = (Node*)malloc(sizeof(Node));
-        printf("%d", i + 1);
-        scanf("%d", &value);
-        temp->data = value;
-        temp->next = NULL;
+        char buffer[100];
+        scanf("%s", buffer);
 
-        if (head == NULL) {
-            head = temp;
-            current = temp;
-        } else {
-            current->next = temp;
-            current = temp;
+        Node* newNode = createNode(buffer);
+        if (head == NULL) head = tail = newNode;
+        else {
+            tail->next = newNode;
+            tail = newNode;
         }
     }
 
-    scanf("%d", &target);
+    char target[100];
+    printf("찾을 수");
+    scanf("%s", target);
 
-    current = head;
-    int posi = 1;
+    Node* temp = head;
+    int index = 1;
     int found = 0;
-
-    while (current != NULL) {
-        if (current->data == target) {
-            printf(" %d → %d번째\n", target, posi);
+    while (temp) {
+        if (strcmp(temp->data, target) == 0) {
+            printf("%s 는 %d번째 노드에\n", target, index);
             found = 1;
             break;
         }
-        current = current->next;
-        posi++;
+        temp = temp->next;
+        index++;
     }
-
-    if (!found) {
-        printf("%d \n", target);
-    }
-
-    current = head;
-    while (current != NULL) {
-        temp = current;
-        current = current->next;
-        free(temp);
-    }
-
-    return 0;
+    if (!found) printf("없써..\n");
 }

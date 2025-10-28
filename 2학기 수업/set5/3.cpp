@@ -3,66 +3,76 @@
 #include <string.h>
 
 typedef struct Node {
-    char data[100];
+    char data[100];         // 정수도 문자열로 저장 가능하도록 통일
     struct Node* next;
 } Node;
 
-Node* createNode(const char* data) {
+Node* createNode(const char* value) {
     Node* newNode = (Node*)malloc(sizeof(Node));
-    strcpy(newNode->data, data);
+    strcpy(newNode->data, value);
     newNode->next = NULL;
     return newNode;
 }
 
-void printList(Node* head) {
-    Node* cur = head;
-    while (cur != NULL) {
-        printf("%s ", cur->data);
-        cur = cur->next;
+// 연결 리스트 길이 구하기
+int getLength(Node* head) {
+    int len = 0;
+    Node* temp = head;
+    while (temp) {
+        len++;
+        temp = temp->next;
     }
-    printf("\n");
+    return len;
 }
 
-void insertFront(Node** head, const char* data) {
-    Node* newNode = createNode(data);
+// 전체 출력
+void printList(Node* head) {
+    Node* temp = head;
+    int idx = 1;
+    while (temp) {
+        printf("[%d] %s -> ", idx++, temp->data);
+        temp = temp->next;
+    }
+    printf("NULL\n");
+}
+
+void addHead(Node** head, const char* value) {
+    Node* newNode = createNode(value);
     newNode->next = *head;
     *head = newNode;
 }
 
-void insertMiddle(Node** head, const char* data) {
-    // 길이 구하기
-    int len = 0;
-    Node* temp = *head;
-    while (temp != NULL) {
-        len++;
-        temp = temp->next;
-    }
+void addMid(Node** head, const char* value) {
+    int len = getLength(*head);
+    int mid = len / 2;
 
-    int mid = len / 2; // 정가운데
-    if (mid == 0) {
-        insertFront(head, data);
+    if (mid == 0) {  // 리스트가 비어있을 때
+        addHead(head, value);
         return;
     }
 
-    temp = *head;
-    for (int i = 0; i < mid - 1; i++) temp = temp->next;
+    Node* temp = *head;
+    for (int i = 0; i < mid - 1; i++)
+        temp = temp->next;
 
-    Node* newNode = createNode(data);
+    Node* newNode = createNode(value);
     newNode->next = temp->next;
     temp->next = newNode;
 }
 
 int main() {
     int n;
+    printf("노드");
     scanf("%d", &n);
 
     Node* head = NULL;
     Node* tail = NULL;
 
     for (int i = 0; i < n; i++) {
-        char str[100];
-        scanf("%s", str);
-        Node* newNode = createNode(str);
+        char buffer[100];
+        scanf("%s", buffer);
+
+        Node* newNode = createNode(buffer);
         if (head == NULL) head = tail = newNode;
         else {
             tail->next = newNode;
@@ -70,17 +80,15 @@ int main() {
         }
     }
 
-    int cmd;
-    printf("1: 앞, 2: 중 ");
-    scanf("%d", &cmd);
+    int option;
+    char value[100];
+    printf("삽입할 데타: ");
+    scanf("%s", value);
+    printf("1첨 2중");
+    scanf("%d", &option);
 
-    char data[100];
-    scanf("%s", data);
-
-    if (cmd == 1) insertFront(&head, data);
-    else if (cmd == 2) insertMiddle(&head, data);
-    else printf("잘못된 입력\n");
+    if (option == 1) addHead(&head, value);
+    else if (option == 2) addMid(&head, value);
 
     printList(head);
-    return 0;
 }

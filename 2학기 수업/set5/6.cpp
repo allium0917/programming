@@ -3,51 +3,65 @@
 #include <string.h>
 
 typedef struct Node {
-    char data[100];
+    char data[100];         // 정수도 문자열로 저장 가능하도록 통일
     struct Node* next;
 } Node;
 
-Node* createNode(const char* data) {
+Node* createNode(const char* value) {
     Node* newNode = (Node*)malloc(sizeof(Node));
-    strcpy(newNode->data, data);
+    strcpy(newNode->data, value);
     newNode->next = NULL;
     return newNode;
 }
 
-void printList(Node* head) {
-    Node* cur = head;
-    while (cur != NULL) {
-        printf("%s ", cur->data);
-        cur = cur->next;
+// 연결 리스트 길이 구하기
+int getLength(Node* head) {
+    int len = 0;
+    Node* temp = head;
+    while (temp) {
+        len++;
+        temp = temp->next;
     }
-    printf("\n");
+    return len;
+}
+
+// 전체 출력
+void printList(Node* head) {
+    Node* temp = head;
+    int idx = 1;
+    while (temp) {
+        printf("%s -> ", temp->data);
+        temp = temp->next;
+    }
+    printf("NULL\n");
 }
 
 Node* reverseList(Node* head) {
     Node* prev = NULL;
-    Node* cur = head;
+    Node* curr = head;
     Node* next = NULL;
 
-    while (cur != NULL) {
-        next = cur->next;
-        cur->next = prev;
-        prev = cur;
-        cur = next;
+    while (curr) {
+        next = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = next;
     }
     return prev;
 }
 
 int main() {
     int n;
+    printf("노드");
     scanf("%d", &n);
 
     Node* head = NULL;
     Node* tail = NULL;
 
     for (int i = 0; i < n; i++) {
-        char str[100];
-        scanf("%s", str);
-        Node* newNode = createNode(str);
+        char buffer[100];
+        scanf("%s", buffer);
+        Node* newNode = createNode(buffer);
         if (head == NULL) head = tail = newNode;
         else {
             tail->next = newNode;
@@ -57,6 +71,4 @@ int main() {
 
     head = reverseList(head);
     printList(head);
-
-    return 0;
 }
