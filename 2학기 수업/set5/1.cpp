@@ -14,7 +14,6 @@ Node* createNode(const char* value) {
     return newNode;
 }
 
-
 int main() {
     int n;
     printf("노드 ");
@@ -25,7 +24,6 @@ int main() {
     for (int i = 0; i < n; i++) {
         char buffer[100];
         scanf("%s", buffer);
-
         Node* newNode = createNode(buffer);
         if (head == NULL) head = tail = newNode;
         else {
