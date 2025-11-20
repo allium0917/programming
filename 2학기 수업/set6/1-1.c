@@ -50,7 +50,7 @@ int main() {
 
         Node* parent = find(root, parentData);
         if(parent == NULL) {
-            printf("❗없는뎅\n");
+            printf("없는뎅\n");
             i--;
             continue;
         }
