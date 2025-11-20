@@ -94,15 +94,23 @@ void printTree(Node* root, int level) {
 int main() {
     Node* root = NULL;
 
-    root = insert(root, 40);
-    insert(root, 20);
-    insert(root, 10);
-    insert(root, 30);
-    insert(root, 60);
-    insert(root, 50);
-    insert(root, 70);
+    int n, val;
 
-    Node* result = search(root, 10);
+    scanf("%d", &n);
+
+    for(int i = 0; i < n; i++){
+        scanf("%d", &val);
+        root = insert(root, val);
+    }
+
+    int a,b,c;
+    printf("삽입");
+    scanf("%d", &a);
+    insert(root, a);
+
+    printf("<UNK>");
+    scanf("%d", &b);
+    Node* result = search(root, b);
 
     if (result != NULL)
         printf("%d\n", result->data);
@@ -110,7 +118,11 @@ int main() {
         printf("없\n");
 
     printTree(root, 0);
-    root = del(root, 20);
+
+    printf("삭제");
+    scanf("%d", &c);
+    root = del(root, c);
+
     printTree(root, 0);
     printf("%d\n", H(root));
 

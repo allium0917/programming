@@ -82,25 +82,20 @@ void printTree(Node* root, int level) {
 int main() {
     Node* root = NULL;
 
-    root = insert(root, 40);
-    insert(root, 20);
-    insert(root, 10);
-    insert(root, 30);
-    insert(root, 60);
-    insert(root, 50);
-    insert(root, 70);
+    int n, val,a,b;
 
-    Node* result = search(root, 10);
+    scanf("%d", &n);
 
-    if (result != NULL)
-        printf("%d\n", result->data);
-    else
-        printf("없\n");
+    for(int i = 0; i < n; i++){
+        scanf("%d", &val);
+        root = insert(root, val);
+    }
+
+    scanf("%d %d", &a, &b);
+    Node* lca = find(root, a, b);
+    printf("%d\n", lca->data);
 
     printTree(root, 0);
-
-    Node* lca = find(root, 10, 30);
-    printf("%d\n", lca->data);
 
     return 0;
 }
